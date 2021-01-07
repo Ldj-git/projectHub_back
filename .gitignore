@@ -1,3 +1,5 @@
 
 lib/secrets/db_secrets.js
 lib/secrets/jwt_secrets.js
+lib/secrets/db_secrets.json
+lib/secrets/jwt_secrets.json
