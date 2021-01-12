@@ -17,7 +17,9 @@ router.post("/", function (req, res) {
           [post.id, post.name, pwd],
           function (err, result) {
             if (err) throw err;
-            res.send("계정 생성됨");
+            res.send({
+                registerSuccess : true
+            });
           }
         );
       } else {
@@ -28,8 +30,9 @@ router.post("/", function (req, res) {
 });
 
 router.post("/checkid", function(req, res){
+  
   con.query(
-    "SELECT id FROM user WHERE id = ?", [req.post.id],
+    "SELECT id FROM user WHERE id = ?", [req.body.id],
     function(err, result){
       if(result[0] == undefined){
         res.send({IdExist : false});

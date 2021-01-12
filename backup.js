@@ -1,19 +1,24 @@
 import React, {useState} from 'react'
-import { withRouter } from "react-router-dom"; 
+import { withRouter } from "react-router-dom";  //??
 import { useDispatch } from "react-redux";
 import { registerUser } from "../../../_actions/userAction";
 
 function RegisterPage(props) {
 
     const[Name, setName]= useState("")
+    const[Email, setEmail]= useState("")
     const[Id, setId]= useState("")
     const[Password, setPassword]= useState("")
     const[PasswordChecked, setPasswordChecked]= useState("")
+    const[Nickname, setNickname]= useState("")
     const dispatch = useDispatch();
-    const [idAccept, setIdAccept] = useState(0);
 
     const onNameHandler=(event)=>{
         setName(event.currentTarget.value)
+    }
+
+    const onEmailHandler=(event)=>{
+        setEmail(event.currentTarget.value)
     }
 
     const onIdHandler=(event)=>{
@@ -28,14 +33,15 @@ function RegisterPage(props) {
         setPasswordChecked(event.currentTarget.value)
     }
 
+    const onNicknameHandler=(event)=>{
+        setNickname(event.currentTarget.value)
+    }
+
     const onSubmitHandler = (e) => {
         e.preventDefault();
-        if(idAccept === false){
-          alert("아이디 중복확인을 해주세요");
-        }
-        else if (Password === PasswordChecked) {
+        if (Password === PasswordChecked) {
             let body = {
-              id :  Id,
+              Id :  Id,
               name: Name,
               pwd : Password,
             };
@@ -49,30 +55,6 @@ function RegisterPage(props) {
             alert("비밀번호가 일치하지 않습니다");
           }
       };
-
-
-      const checkID=(e)=>{      
-        e.preventDefault();
-        const data = {
-            id: Id   
-        }
-
-        fetch('/register/checkid',{ 
-            method:"post",
-            headers: { "Content-Type":  "application/json" }, 
-            body: JSON.stringify(data),   
-        })
-        .then(res => res.json())
-        .then(json => {
-            if(json.IdExist === false){   
-                alert("사용가능한 ID입니다"); 
-                setIdAccept(true);
-            }
-            else{
-                alert("다른 ID를 입력해주세요!!");
-            }
-        });
-    };
 
 
     return (
@@ -91,12 +73,21 @@ function RegisterPage(props) {
       </div><br/>
 
       <div>
+        <span>이메일</span><br/>
+        <input
+            type="email"
+          placeholder="이메일을 입력하세요"
+          value={Email} onChange={onEmailHandler}
+        />
+      </div><br/>
+
+      <div>
         <span>아이디</span><br/>
         <input
           placeholder="이메일을 입력하세요"
           value={Id} onChange={onIdHandler}
         />
-        <button onClick={checkID}>중복확인</button>
+        <button>중복확인</button>
       </div><br/>
 
       <div>
@@ -113,6 +104,15 @@ function RegisterPage(props) {
           placeholder="비밀번호 확인"
           value={PasswordChecked} onChange={onPasswordCheckedHandler}
         />
+      </div><br/>
+
+      <div>
+        <span>닉네임</span><br/>
+        <input
+          placeholder="닉네임을 입력하세요"
+          value={Nickname} onChange={onNicknameHandler}
+        />
+        <button>중복확인</button>
       </div><br/>
 
       <button type="submit">회원 가입</button>
