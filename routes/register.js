@@ -5,6 +5,7 @@ const encrypt = require("../lib/crypto");
 
 router.post("/", function (req, res) {
   var post = req.body;
+  console.log(post);
   var pwd = encrypt.encrypt(post.pwd);
   con.query(
     "SELECT id FROM user WHERE id=?",
@@ -24,6 +25,20 @@ router.post("/", function (req, res) {
       }
     }
   );
+});
+
+router.post("/checkid", function(req, res){
+  con.query(
+    "SELECT id FROM user WHERE id = ?", [req.post.id],
+    function(err, result){
+      if(result[0] == undefined){
+        res.send({IdExist : true});
+      }
+      else{
+        res.send({IdExist : false});
+      }
+    }
+  )
 });
 // router.get("/", function(req, res){
 //     res.render("register", {});

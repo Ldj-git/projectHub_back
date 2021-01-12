@@ -1,9 +1,10 @@
 const express = require("express");
 var router = express.Router();
 
-router.get("/", function (req, res) {
-  res.cookie("user", "");
-  res.redirect("/");
+router.post("/", function (req, res) {
+  res.send({
+    success : true
+  });
 });
 
 module.exports = router;

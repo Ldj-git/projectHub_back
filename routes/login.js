@@ -8,7 +8,9 @@ const encrypt = require("../lib/crypto");
 
 router.post("/", function (req, res) {
   var post = req.body;
+  // console.log(post.id);
   var pwd = encrypt.encrypt(post.pwd);
+  console.log(pwd);
 
   con.query(
     "SELECT id, pwd FROM user WHERE id=?",
@@ -16,7 +18,9 @@ router.post("/", function (req, res) {
     function (error, result) {
       if (error) throw error;
       if (result[0] === undefined) {
-        res.send("없는 아이디");
+        res.send({
+          message : "계정이 존재하지 않습니다."
+        });
       } else if (pwd === result[0].pwd) {
         let token = jwt.sign(
           {
@@ -25,9 +29,14 @@ router.post("/", function (req, res) {
           JWTSecret.secret,
           { expiresIn: "2h" }
         );
-        res.send(token);
+        res.json({
+          token : token,
+          loginSuccess : true
+        });
       } else {
-        res.send("비밀번호 불일치");
+        res.send({
+          message : "비밀번호가 일치하지 않습니다."
+        });
       }
     }
   );
