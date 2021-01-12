@@ -32,10 +32,10 @@ router.post("/checkid", function(req, res){
     "SELECT id FROM user WHERE id = ?", [req.post.id],
     function(err, result){
       if(result[0] == undefined){
-        res.send({IdExist : true});
+        res.send({IdExist : false});
       }
       else{
-        res.send({IdExist : false});
+        res.send({IdExist : true});
       }
     }
   )
