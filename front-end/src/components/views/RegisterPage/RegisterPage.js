@@ -2,6 +2,9 @@ import React, {useState} from 'react'
 import { withRouter } from "react-router-dom"; 
 import { useDispatch } from "react-redux";
 import { registerUser } from "../../../_actions/userAction";
+import NavBar from "../../Parts/NavBar/MainNavBar"
+import Form from "react-bootstrap/Form"
+import Button from "react-bootstrap/Button"
 
 function RegisterPage(props) {
 
@@ -11,22 +14,6 @@ function RegisterPage(props) {
     const[PasswordChecked, setPasswordChecked]= useState("")
     const dispatch = useDispatch();
     const [idAccept, setIdAccept] = useState(0);
-
-    const onNameHandler=(event)=>{
-        setName(event.currentTarget.value)
-    }
-
-    const onIdHandler=(event)=>{
-        setId(event.currentTarget.value)
-    }
-
-    const onPasswordHandler=(event)=>{
-        setPassword(event.currentTarget.value)
-    }
-
-    const onPasswordCheckedHandler=(event)=>{
-        setPasswordChecked(event.currentTarget.value)
-    }
 
     const onSubmitHandler = (e) => {
         e.preventDefault();
@@ -69,55 +56,65 @@ function RegisterPage(props) {
                 setIdAccept(true);
             }
             else{
-                alert("다른 ID를 입력해주세요!!");
+                alert("이미 사용중인 아이디입니다. 다른 아이디를 입력해주세요.");
+                setIdAccept(false);
             }
         });
     };
 
 
     return (
+      <span>
+        <NavBar />
+
         <div style={{
-            display:'flex', justifyContent:'center', alignItems:'center'
-            , width:'100%', height:'100vh'
+          display:'flex', justifyContent:'center', alignItems:'center'
+          , width:'100%', height:'100vh'
         }}>
-        <form onSubmit={onSubmitHandler}>
-        <b>|회원가입|</b><br/><br/>
-        <div>
-        <span>이름</span><br/>
-        <input
-          placeholder="이름을 입력하세요"
-          value={Name} onChange={onNameHandler}
-        />
-      </div><br/>
+        <Form onSubmit={onSubmitHandler}>
+        <Form.Group size="lg" controlId="name">
+            <Form.Label>이름</Form.Label>
+            <Form.Control
+              autoFocus
+              type=""
+              value={Name}
+              onChange={(e) => setName(e.target.value)}
+            />
+          </Form.Group>
+          <Form.Group size="lg" controlId="id">
+            <Form.Label>ID</Form.Label>
+            <Form.Control
+              autoFocus
+              type="id"
+              value={Id}
+              onChange={(e) => setId(e.target.value)}
+            />
+            <br />
+            <Button onClick={checkID} ml="30">중복확인</Button>
+          </Form.Group>
 
-      <div>
-        <span>아이디</span><br/>
-        <input
-          placeholder="이메일을 입력하세요"
-          value={Id} onChange={onIdHandler}
-        />
-        <button onClick={checkID}>중복확인</button>
-      </div><br/>
+          <Form.Group size="lg" controlId="password">
+            <Form.Label>Password</Form.Label>
+            <Form.Control
+              type="password"
+              value={Password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+          </Form.Group>
 
-      <div>
-        <span>비밀번호</span><br/>
-        <input  type="password"
-          placeholder="8~16자 대/소문자,숫자,특수문자 중 2가지"
-          value={Password} onChange={onPasswordHandler}
-        />
-      </div><br/>
+          <Form.Group size="lg" controlId="password">
+            <Form.Label>Password Recheck</Form.Label>
+            <Form.Control
+              type="password"
+              value={PasswordChecked}
+              onChange={(e) => setPasswordChecked(e.target.value)}
+            />
+          </Form.Group>
 
-      <div>
-        <span>비밀번호 확인</span><br/>
-        <input  type="password"
-          placeholder="비밀번호 확인"
-          value={PasswordChecked} onChange={onPasswordCheckedHandler}
-        />
-      </div><br/>
-
-      <button type="submit">회원 가입</button>
-    </form>
+      <Button type="submit">회원 가입</Button >
+    </Form>
     </div>
+    </span>
     )
 }
 

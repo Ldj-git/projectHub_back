@@ -106,14 +106,20 @@ router.get("/delete/:idx", (req, res) => {
     }
   });
 });
+
 router.get("/:idx", (req, res) => {
   con.query(
     "select * from project join team on project.team_idx=team.idx where project.idx=?;",
     req.params.idx,
     function (error, results) {
-      results[0].idx = req.params.idx;
-      console.log(results[0].idx);
-      res.json(results);
+      if(results[0] === undefined){
+        res.send(fail);
+      }
+      else{
+        results[0].idx = req.params.idx;
+        console.log(results[0]);
+        res.json(results[0]);
+      }
     }
   );
 });

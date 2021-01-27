@@ -1,3 +1,11 @@
 export const REGISTER_USER = "REGISTER_USER";
 export const LOGIN_USER ="LOGIN_USER";
 export const LOGOUT_USER = "LOGOUT_USER";
+
+export const UPLOAD_SUCCESS = "UPLOAD_SUCCESS";
+export const UPLOAD_FAILURE = "UPLOAD_FAILURE";
+export const MODIFY_SUCCESS = "MODIFY_SUCCESS";
+export const MODIFY_FAILURE = "MODIFY_FAILURE";
+export const POST_DELETE = "POST_DELETE";
+export const GET_POST_DETAIL = "GET_POST_DETAIL";
+export const GET_ALL_POST = "GET_ALL_POST";

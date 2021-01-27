@@ -1,6 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { Provider } from "react-redux";
@@ -8,6 +7,8 @@ import { applyMiddleware, createStore } from "redux";
 import promiseMiddlerware from "redux-promise";
 import reduxThunk from "redux-thunk";
 import reducer from "./_reducers";
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 
 const createStoreWidthMiddleware = applyMiddleware(
   promiseMiddlerware,
