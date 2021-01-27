@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { IoMdArrowRoundBack } from "react-icons/io";
 import { useDispatch } from "react-redux";
-
+import NavBar from "../../Parts/NavBar/MainNavBar"
 import { postModify, getPostDetail } from "../../../_actions/postAction";
 
 
@@ -68,7 +68,7 @@ function PostModify(props) {              // 게시물 수정
             dispatch(postModify({formData, idx })).then((res) => {
                 console.log(res);
                 if (res) {
-                  history.push(`/src/components/views/Section/PostDetail.js${idx}`);
+                  props.history.push(`/src/components/views/Section/PostDetail.js${idx}`);
                 } else {
                   alert("게시물 수정에 실패했습니다.");
                 }
@@ -78,6 +78,8 @@ function PostModify(props) {              // 게시물 수정
 
 
     return (
+      <span>
+        <NavBar />
         <div align="center">
         <div>
         <Link to="/">
@@ -87,26 +89,26 @@ function PostModify(props) {              // 게시물 수정
 
         <b>| Project Modify |</b><br/><br/>
         <div>
-        <span>● Team Name</span><br/>
+        <span>Team Name</span><br/>
         <input
           value={Name} onChange={onNameHandler} 
-        />
+          />
       </div><br/>
 
       <div>
-        <span>● Team Member</span><br/>
+        <span>Team Member</span><br/>
         <input
           placeholder="Pick a team member through the button"
           value={Members} onChange={onMembersHandler} 
-        />
+          />
         <button>Choose team</button>
       </div><br/>
 
       <div>
-        <span>● Project Title</span><br/>
+        <span>Project Title</span><br/>
         <input
           value={Title} onChange={onTitleHandler} 
-        />
+          />
       </div><br/>
 
       <div>
@@ -114,11 +116,12 @@ function PostModify(props) {              // 게시물 수정
         <textarea 
           value={Info} onChange={onInfoHandler}
           cols="40" rows="5" 
-        />
+          />
       </div><br/>
 
       <button onClick={onUpload}>Modify</button>
         </div>
+          </span>
     )
 }
 
