@@ -2,10 +2,11 @@ import React, { useEffect, useState } from 'react'
 import { useParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import NavBar from "../../Parts/NavBar/MainNavBar"
-import { getPostDetail, postDelete } from "../../../_actions/postAction";
+import { getProjectDetail, projectDelete } from "../../../_actions/projectAction";
+import './Button.css';
 
 
-function PostDetail(props) {             // 게시물을 눌렀을 때 나오는 화면 
+function ProjectDetail(props) {             // 게시물을 눌렀을 때 나오는 화면 
   const param = useParams();
   const idx = param.idx;
   const dispatch = useDispatch();
@@ -23,7 +24,7 @@ function PostDetail(props) {             // 게시물을 눌렀을 때 나오는
 
 
   useEffect(() => {
-    dispatch(getPostDetail(idx)).then((res) => {
+    dispatch(getProjectDetail(idx)).then((res) => {
       console.log(res);
       setAddDate(res.payload.addDate);
       setUpdateDate(res.payload.updateDate);
@@ -44,7 +45,7 @@ function PostDetail(props) {             // 게시물을 눌렀을 때 나오는
   const onDelete=(e)=>{
     e.preventDefault();
     if (window.confirm("Delete this posting?")){
-          dispatch(postDelete(idx)).then((response) => {
+          dispatch(projectDelete(idx)).then((response) => {
             if (response) {
               props.history.push(`/`);
             } else {
@@ -60,10 +61,12 @@ function PostDetail(props) {             // 게시물을 눌렀을 때 나오는
     return (
       <span>
         <NavBar />
-        <div align="center">
-          <h2>{Title}</h2>
-          <p>Upload Date: {AddDate}</p><br/>
-          <p>Modify Date: {UpdateDate}</p><br/><br/>
+        <div align="center"><br/>
+          <button className="modify" onClick={onModify}>수정</button>
+          <button className="delete" style={{marginLeft : 15}} onClick={onDelete}>삭제</button><br/>
+          <h4>PROJECT | {Title}</h4>
+          <small>Upload Date: {AddDate}</small><br/>
+          <small>Modify Date: {UpdateDate}</small><br/><br/>
 
           <div>
             <span>Team Name</span><br/>
@@ -78,13 +81,16 @@ function PostDetail(props) {             // 게시물을 눌렀을 때 나오는
           <div>
             <span>Project Information</span><br/>
             <div>{Info}</div>
-          </div><br/>
+          </div><br/><br/>
 
-          <button onClick={onModify}>수정</button>
-          <button style={{marginLeft : 15}} onClick={onDelete}>삭제</button>
+
+          {/*POSTING 부분*/}
+          <div>----------------------------------------------------</div>
+          <h4>POSTING</h4>
+
         </div>
       </span>
     )
 }
 
-export default PostDetail
+export default ProjectDetail

@@ -1,9 +1,9 @@
 import React from 'react'
 import { Link } from 'react-router-dom';
-import './Post.css';
+import './Project.css';
 
 
-function Post({idx, title, name, members, addDate}) {       // List에 출력되는 게시물
+function Project({idx, title, name, members, addDate}) {       // List에 출력되는 게시물
     
     var URL= "/project/read/"+idx;
     return (
@@ -25,4 +25,4 @@ function Post({idx, title, name, members, addDate}) {       // List에 출력되
     )
 }
 
-export default Post
+export default Project

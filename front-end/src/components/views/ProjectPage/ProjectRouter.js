@@ -1,9 +1,9 @@
 import React, { Component} from 'react';
 import {BrowserRouter, Switch, Route} from "react-router-dom";
-import List from "./List"
-import PostDetail from "./PostDetail"
-import NewPost from "./NewPost"
-import PostModify from "./PostModify"
+import ProjectMainPage from "./ProjectMainPage"
+import ProjectDetail from "./ProjectDetail"
+import NewProject from "./NewProject"
+import ProjectModify from "./ProjectModify"
 
 
 class ProjectRouter extends Component {
@@ -12,10 +12,10 @@ class ProjectRouter extends Component {
             <BrowserRouter>
             <div>
               <Switch>
-                <Route exact path="/project/" component={List} />
-                <Route exact path="/project/read/:idx" component={PostDetail} />
-                <Route exact path="/project/write" component={NewPost} />
-                <Route exact path="/project/update/:idx" component={PostModify} />
+                <Route exact path="/project/" component={ProjectMainPage} />
+                <Route exact path="/project/read/:idx" component={ProjectDetail} />
+                <Route exact path="/project/write" component={NewProject} />
+                <Route exact path="/project/update/:idx" component={ProjectModify} />
               </Switch>
             </div>
           </BrowserRouter>

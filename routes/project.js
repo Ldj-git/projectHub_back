@@ -27,21 +27,26 @@ router.post("/upload", (req, res) => {
   );
 });
 
-router.post("/update/:idx", (req, res) => {
-  var user = req.headers.user;
-  //var user = req.cookies.user;
-  var input = req.body;
+router.post("/update", (req, res) => {
+  var user = req.cookies.user;
+  var input = req.body.postBody;
   jwt.verify(user, JWTSecret.secret, (err, decoded) => {
     if (err) {
-      res.send("토큰 이상함..");
+      console.log(req.cookies.user);
+      res.json({token : false});
     } else {
+      console.log(decoded.id)
       con.query(
         "select members, team_idx from project left join team on project.team_idx=team.idx where project.idx=?",
-        req.params.idx,
+        input.idx,
         (error, result) => {
+          console.log(result)
+          console.log(input);
+          if(error) throw error;
           if (result[0] == null) {
             res.send("존재하지 않는 프로젝트");
           } else {
+            input.idx = parseInt(input.idx);
             var tm = result[0].members;
             var b = true;
             tm = tm.split(", ");
@@ -49,9 +54,10 @@ router.post("/update/:idx", (req, res) => {
               if (tm[i] === decoded.id) {
                 b = false;
                 con.query(
-                  "update project set team_idx=?, title=?, info=? ,updateDate=now() where project.idx=?;",
-                  [input.team_idx, input.title, input.info, req.params.idx],
+                  "update project set title=?, info=? ,updateDate=now() where project.idx=?;",
+                  [input.title, input.info, input.idx],
                   (err, r) => {
+                    if(err) throw err;
                     res.send("수정 성공!");
                   }
                 );
@@ -68,8 +74,7 @@ router.post("/update/:idx", (req, res) => {
   });
 });
 router.get("/delete/:idx", (req, res) => {
-  var user = req.headers.user;
-  //var user = req.cookies.user;
+  var user = req.cookies.user;
   jwt.verify(user, JWTSecret.secret, (err, decoded) => {
     if (err) {
       res.send("토큰 이상함..");

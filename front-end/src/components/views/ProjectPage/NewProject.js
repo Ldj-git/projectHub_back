@@ -1,11 +1,12 @@
 import React, {useState} from 'react'
 import {  useDispatch } from 'react-redux';
-import { postUpload } from "../../../_actions/postAction";
+import { projectUpload } from "../../../_actions/projectAction";
 import { Link } from "react-router-dom";
 import { IoMdArrowRoundBack } from "react-icons/io";
+import './Button.css';
 
 
-function NewPost(props) {                     // 글 작성
+function NewProject(props) {                     // 글 작성
     const dispatch = useDispatch();
 
     const[Name, setName]= useState("")
@@ -50,7 +51,7 @@ function NewPost(props) {                     // 글 작성
             formData.append("info", Info);
             formData.append("team_idx", Team_idx);            // 팀 인덱스 요청
 
-            dispatch(postUpload(formData)).then((res) => {
+            dispatch(projectUpload(formData)).then((res) => {
                 if (res) {
                   props.history.push("/");
                 } else {
@@ -61,49 +62,49 @@ function NewPost(props) {                     // 글 작성
     }
     
     return (
-        <div align="center">
-        <div>
-        <Link to="/">
-          <IoMdArrowRoundBack />
+      <div><br/>
+        <Link to="/project/" className="back">
+          <IoMdArrowRoundBack/>
         </Link>
+        <br/><br/>
+        <div align="center">
+          <h5>| Project Upload |</h5><br/>
+
+          <div>
+            <span>● Team Name</span><br/>
+            <input
+              value={Name} onChange={onNameHandler}
+            />
+          </div><br/>
+
+          <div>
+            <span>● Team Member</span><br/>
+            <input
+              placeholder="Pick a team member through the button"
+              value={Members} onChange={onMembersHandler} 
+            />
+            <button className="chooseBtn">Choose team</button>
+          </div><br/>
+
+          <div>
+            <span>● Project Title</span><br/>
+            <input
+              value={Title} onChange={onTitleHandler} 
+            />
+          </div><br/>
+
+          <div>
+            <span>● Project Information</span><br/>
+            <textarea 
+              value={Info} onChange={onInfoHandler}
+              cols="40" rows="5" 
+            />
+          </div><br/><br/>
+
+          <button className="uploadBtn" onClick={onUpload}>Upload</button>
         </div>
-
-        
-        <b>| Project Upload |</b><br/><br/>
-        <div>
-        <span>● Team Name</span><br/>
-        <input
-          value={Name} onChange={onNameHandler} 
-        />
-      </div><br/>
-
-      <div>
-        <span>● Team Member</span><br/>
-        <input
-          placeholder="Pick a team member through the button"
-          value={Members} onChange={onMembersHandler} 
-        />
-        <button>Choose team</button>
-      </div><br/>
-
-      <div>
-        <span>● Project Title</span><br/>
-        <input
-          value={Title} onChange={onTitleHandler} 
-        />
-      </div><br/>
-
-      <div>
-        <span>● Project Information</span><br/>
-        <textarea 
-          value={Info} onChange={onInfoHandler}
-          cols="40" rows="5" 
-        />
-      </div><br/>
-
-      <button onClick={onUpload}>Upload</button>
-        </div>
+      </div>
     )
 }
 
-export default NewPost
+export default NewProject
