@@ -17,7 +17,7 @@ router.get("/project/:idx", function (req, res) {
 
 //포스팅 업로드
 router.post("/upload", (req, res) => {
-  var user = req.headers.user;
+  var user = req.cookies.user;
   var input = req.body;
   jwt.verify(user, JWTSecret.secret, (err, decoded) => {
     if (err) {
@@ -36,7 +36,7 @@ router.post("/upload", (req, res) => {
 });
 //포스팅 수정 쿼리로 포스팅 인덱스 받음
 router.post("/update/:idx", (req, res) => {
-  var user = req.headers.user;
+  var user = req.cookies.user;
   var input = req.body;
   jwt.verify(user, JWTSecret.secret, (err, decoded) => {
     if (err) {
@@ -69,7 +69,7 @@ router.post("/update/:idx", (req, res) => {
 });
 //포스팅 삭제 쿼리로 포스팅 인덱스 받음
 router.get("/delete/:idx", (req, res) => {
-  var user = req.headers.user;
+  var user = req.cookies.user;
   jwt.verify(user, JWTSecret.secret, (err, decoded) => {
     if (err) {
       res.send("토큰 이상함..");
