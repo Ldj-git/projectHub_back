@@ -19,6 +19,7 @@ router.get("/project/:idx", function (req, res) {
 router.post("/upload", (req, res) => {
   var user = req.cookies.user;
   var input = req.body;
+  console.log(input);
   jwt.verify(user, JWTSecret.secret, (err, decoded) => {
     if (err) {
       res.send(err);
