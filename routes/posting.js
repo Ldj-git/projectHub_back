@@ -22,9 +22,14 @@ router.post("/upload", (req, res) => {
   console.log(input);
   jwt.verify(user, JWTSecret.secret, (err, decoded) => {
     if (err) {
+      console.log(err);
       res.send(err);
       //res.send("토큰 손상됨..");
     } else {
+      console.log(input.project_idx);
+      console.log(decoded.id);
+      console.log(input.content);
+      console.log(input.title);
       con.query(
         "insert into posting (project_idx,user_id,content,title) values(?,?,?,?)",
         [input.project_idx, decoded.id, input.content, input.title],
