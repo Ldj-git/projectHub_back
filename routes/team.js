@@ -5,8 +5,8 @@ const JWTSecret = require("./../lib/secrets/jwt_secrets");
 const jwt = require("jsonwebtoken");
 //현재 로그인된 아이디 기준 가입된 팀
 router.get("/", function (req, res) {
-  var user = req.headers.user;
-  //var user = req.cookies.user;
+  //var user = req.headers.user;
+  var user = req.cookies.user;
   jwt.verify(user, JWTSecret.secret, (err, decoded) => {
     if (err) {
       res.send("토큰 이상함..");
@@ -34,9 +34,9 @@ router.post("/create", (req, res) => {
 });
 //수정
 router.post("/update/:idx", (req, res) => {
-  var user = req.headers.user;
+  //var user = req.headers.user;
   var input = req.body;
-  //var user = req.cookies.user;
+  var user = req.cookies.user;
   jwt.verify(user, JWTSecret.secret, (err, decoded) => {
     if (err) {
       res.send("토큰 이상함..");
@@ -76,8 +76,8 @@ router.post("/update/:idx", (req, res) => {
 });
 //삭제 일단은 프로젝트 없는 팀만 삭제가능
 router.get("/delete/:idx", (req, res) => {
-  var user = req.headers.user;
-  //var user = req.cookies.user;
+  //var user = req.headers.user;
+  var user = req.cookies.user;
   jwt.verify(user, JWTSecret.secret, (err, decoded) => {
     if (err) {
       res.send("토큰 이상함..");
