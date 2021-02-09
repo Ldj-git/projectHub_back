@@ -35,7 +35,8 @@ router.post("/create", (req, res) => {
 //수정
 router.post("/update/:idx", (req, res) => {
   //var user = req.headers.user;
-  var input = req.body;
+  var input = req.body.postbody;
+  console.log(req.body);
   var user = req.cookies.user;
   jwt.verify(user, JWTSecret.secret, (err, decoded) => {
     if (err) {
