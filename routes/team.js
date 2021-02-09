@@ -91,25 +91,37 @@ router.get("/delete/:idx", (req, res) => {
           if (result[0] == null) {
             res.send("존재하지 않는 팀");
           } else {
-            var r = result[0].members;
-            var b = true;
-            r = r.split(", ");
-            for (var i = 0; i < r.length; i++) {
-              if (r[i] === decoded.id) {
-                b = false;
-                con.query(
-                  "delete from team where idx=?",
-                  req.params.idx,
-                  (err, result) => {
-                    res.send("삭제 성공!");
+            //해당 팀이 프로잭트를 보유 중인지 확인
+            con.query(
+              "select * from team join project on team.idx=project.team_idx where team.idx=?",
+              req.params.idx,
+              (err, re) => {
+                if (re[0] == null) {
+                  //유저토큰 아이디가 팀원중 존재하는지 확인
+                  var r = result[0].members;
+                  var b = true;
+                  r = r.split(", ");
+                  for (var i = 0; i < r.length; i++) {
+                    if (r[i] === decoded.id) {
+                      b = false;
+                      con.query(
+                        "delete from team where idx=?",
+                        req.params.idx,
+                        (err, result) => {
+                          res.send("삭제 성공!");
+                        }
+                      );
+                      break;
+                    }
                   }
-                );
-                break;
+                  if (b) {
+                    res.send("삭제 권한 없음");
+                  }
+                } else {
+                  res.send("프로젝트가 존재해 삭제할수 없음");
+                }
               }
-            }
-            if (b) {
-              res.send("삭제 권한 없음");
-            }
+            );
           }
         }
       );
