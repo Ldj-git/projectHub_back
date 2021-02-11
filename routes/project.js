@@ -29,20 +29,20 @@ router.post("/upload", (req, res) => {
 
 router.post("/update", (req, res) => {
   var user = req.cookies.user;
-  var input = req.body.postBody;
+  var input = req.body;
   jwt.verify(user, JWTSecret.secret, (err, decoded) => {
     if (err) {
       console.log(req.cookies.user);
-      res.json({token : false});
+      res.json({ token: false });
     } else {
-      console.log(decoded.id)
+      console.log(decoded.id);
       con.query(
         "select members, team_idx from project left join team on project.team_idx=team.idx where project.idx=?",
         input.idx,
         (error, result) => {
-          console.log(result)
+          console.log(result);
           console.log(input);
-          if(error) throw error;
+          if (error) throw error;
           if (result[0] == null) {
             res.send("존재하지 않는 프로젝트");
           } else {
@@ -57,7 +57,7 @@ router.post("/update", (req, res) => {
                   "update project set title=?, info=? ,updateDate=now() where project.idx=?;",
                   [input.title, input.info, input.idx],
                   (err, r) => {
-                    if(err) throw err;
+                    if (err) throw err;
                     res.send("수정 성공!");
                   }
                 );
@@ -117,10 +117,9 @@ router.get("/:idx", (req, res) => {
     "select * from project join team on project.team_idx=team.idx where project.idx=?;",
     req.params.idx,
     function (error, results) {
-      if(results[0] === undefined){
+      if (results[0] === undefined) {
         res.send(fail);
-      }
-      else{
+      } else {
         results[0].idx = req.params.idx;
         console.log(results[0]);
         res.json(results[0]);

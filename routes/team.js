@@ -33,9 +33,9 @@ router.post("/create", (req, res) => {
   );
 });
 //수정
-router.post("/update/:idx", (req, res) => {
+router.post("/update", (req, res) => {
   //var user = req.headers.user;
-  var input = req.body.postbody;
+  var input = req.body;
   console.log(req.body);
   var user = req.cookies.user;
   jwt.verify(user, JWTSecret.secret, (err, decoded) => {
@@ -58,8 +58,9 @@ router.post("/update/:idx", (req, res) => {
                 b = false;
                 con.query(
                   "update team set name=?, members=? where idx=?",
-                  [input.name, input.members, req.params.idx],
+                  [input.name, input.members, input.idx],
                   (err, result) => {
+                    if (err) throw err;
                     res.send("수정 성공!");
                   }
                 );
