@@ -43,36 +43,33 @@ router.post("/update", (req, res) => {
       res.send("토큰 이상함..");
     } else {
       console.log(decoded.id);
-      con.query(
-        `select * from team where idx=?`,
-        req.params.idx,
-        (err, result) => {
-          if (result[0] == null) {
-            res.send("존재하지 않는 팀");
-          } else {
-            var r = result[0].members;
-            var b = true;
-            r = r.split(", ");
-            for (var i = 0; i < r.length; i++) {
-              if (r[i] === decoded.id) {
-                b = false;
-                con.query(
-                  "update team set name=?, members=? where idx=?",
-                  [input.name, input.members, input.idx],
-                  (err, result) => {
-                    if (err) throw err;
-                    res.send("수정 성공!");
-                  }
-                );
-                break;
-              }
-            }
-            if (b) {
-              res.send("수정 권한 없음");
+      con.query(`select * from team where idx=?`, input.idx, (err, result) => {
+        if (result[0] == null) {
+          res.send("존재하지 않는 팀");
+        } else {
+          input.idx = parseInt(input.idx);
+          var r = result[0].members;
+          var b = true;
+          r = r.split(", ");
+          for (var i = 0; i < r.length; i++) {
+            if (r[i] === decoded.id) {
+              b = false;
+              con.query(
+                "update team set name=?, members=? where idx=?",
+                [input.name, input.members, input.idx],
+                (err, result) => {
+                  if (err) throw err;
+                  res.send("수정 성공!");
+                }
+              );
+              break;
             }
           }
+          if (b) {
+            res.send("수정 권한 없음");
+          }
         }
-      );
+      });
     }
   });
 });

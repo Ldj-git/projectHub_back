@@ -19,10 +19,7 @@ router.post("/upload", (req, res) => {
     "insert into project (team_idx, title, info) values(?,?,?)",
     [input.team_idx, input.title, input.info],
     (err, result) => {
-      con.query("select last_insert_id() as 'idx'", (err, result) => {
-        //res.redirect(`/project/${result[0].idx}`);
-        res.send("프로젝트 업로드 성공");
-      });
+      res.send("프로젝트 업로드 성공");
     }
   );
 });
