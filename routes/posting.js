@@ -4,6 +4,13 @@ const con = require("../lib/db.js");
 const JWTSecret = require("./../lib/secrets/jwt_secrets");
 const jwt = require("jsonwebtoken");
 
+//모든 포스팅 반환
+router.get("/", (req, res) => {
+  con.query("select * from posting;", (err, result) => {
+    res.json(result);
+  });
+});
+
 //프로젝트 인덱스에 포함된 모든 포스팅 반환
 router.get("/project/:idx", function (req, res) {
   con.query(
