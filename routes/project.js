@@ -51,8 +51,8 @@ router.post("/update", (req, res) => {
               if (tm[i] === decoded.id) {
                 b = false;
                 con.query(
-                  "update project set title=?, info=? ,updateDate=now() where project.idx=?;",
-                  [input.title, input.info, input.idx],
+                  "update project set title=?, info=?, team_idx=?, updateDate=now() where project.idx=?;",
+                  [input.title, input.info, input.team_idx, input.idx ],
                   (err, r) => {
                     if (err) throw err;
                     res.send("수정 성공!");

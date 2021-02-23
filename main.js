@@ -17,17 +17,17 @@ app.set("view engine", "pug");
 app.use(
   cors({
     credentials: true,
-    origin: "http://localhost:3008",
+    origin: true,
   })
 );
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.json());
 
-app.use("/login", loginRouter);
-app.use("/register", registerRouter);
-app.use("/logout", logoutRouter);
-app.use("/team", teamRouter);
-app.use("/project", projectRouter);
-app.use("/posting", postingRouter);
+app.use("/api/login", loginRouter);
+app.use("/api/register", registerRouter);
+app.use("/api/logout", logoutRouter);
+app.use("/api/team", teamRouter);
+app.use("/api/project", projectRouter);
+app.use("/api/posting", postingRouter);
 app.listen(8765, () => console.log("con Success on port 8765."));
